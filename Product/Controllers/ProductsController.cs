@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace Product.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class ProductsController : ControllerBase
     {
         private AppDbContext _context;
@@ -39,6 +41,7 @@ namespace Product.Controllers
         /// <param name="id">Product Id</param>
         /// <returns>Product and product property</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<ProductGetDto> Get(int id)
         {
             Data.Entities.Product product = _context.Products

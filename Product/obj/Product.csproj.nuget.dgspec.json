@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Orxan477\\source\\repos\\Product\\Product\\Product.csproj": {}
+    "D:\\HP\\Documents\\Private\\Code Academy\\Back-End\\API\\Product\\Product\\Product.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Orxan477\\source\\repos\\Product\\Product\\Product.csproj": {
+    "D:\\HP\\Documents\\Private\\Code Academy\\Back-End\\API\\Product\\Product\\Product.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Orxan477\\source\\repos\\Product\\Product\\Product.csproj",
+        "projectUniqueName": "D:\\HP\\Documents\\Private\\Code Academy\\Back-End\\API\\Product\\Product\\Product.csproj",
         "projectName": "Product",
-        "projectPath": "C:\\Users\\Orxan477\\source\\repos\\Product\\Product\\Product.csproj",
+        "projectPath": "D:\\HP\\Documents\\Private\\Code Academy\\Back-End\\API\\Product\\Product\\Product.csproj",
         "packagesPath": "C:\\Users\\Orxan477\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Orxan477\\source\\repos\\Product\\Product\\obj\\",
+        "outputPath": "D:\\HP\\Documents\\Private\\Code Academy\\Back-End\\API\\Product\\Product\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -51,6 +51,14 @@
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[10.3.6, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.0, )"
             },
             "Microsoft.AspNetCore.JsonPatch": {
               "target": "Package",
