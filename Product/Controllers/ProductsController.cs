@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Product.Data.DAL;
 using Product.DTOs.ProductDto;
+using Product.Repositiries;
+using Product.Repositiries.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,20 +20,22 @@ namespace Product.Controllers
     {
         private AppDbContext _context;
         private IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductsController(AppDbContext context,IMapper mapper)
+        public ProductsController(AppDbContext context,IMapper mapper, IUnitOfWork unitOfWork)
         {
             _context = context;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
         /// <summary>
         /// Get All Product
         /// </summary>
         /// <returns>All Product</returns>
         [HttpGet]
-        public async Task<ActionResult<List<ProductGetDto>>> Get()
+        public async Task<ActionResult<List<ProductGetDto>>> GetAll()
         {
-            var dbProduct = await _context.Products.Where(p => p.IsDeleted == false).ToListAsync();
+            var dbProduct = await _unitOfWork.productRepository.GetAllAsync((p => p.IsDeleted == false));
             List<ProductGetDto> products = _mapper.Map<List<ProductGetDto>>(dbProduct);
             return products;
         }
@@ -41,12 +45,10 @@ namespace Product.Controllers
         /// <param name="id">Product Id</param>
         /// <returns>Product and product property</returns>
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
-        public ActionResult<ProductGetDto> Get(int id)
+        //[Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ProductGetDto>> Get(int id)
         {
-            Data.Entities.Product product = _context.Products
-                                                    .Where(p => p.IsDeleted == false && p.Id == id)
-                                                    .FirstOrDefault();
+            Data.Entities.Product product = await _unitOfWork.productRepository.GetAsync(p => p.IsDeleted == false && p.Id == id);
             if (product is null) return NotFound();
             ProductGetDto productGetDto = _mapper.Map<ProductGetDto>(product);
             return productGetDto;
@@ -60,8 +62,8 @@ namespace Product.Controllers
         public async Task<ActionResult> Post(ProductPostDto productPost)
         {
             Data.Entities.Product product = _mapper.Map<Data.Entities.Product>(productPost);
-           await _context.Products.AddAsync(product);
-           await _context.SaveChangesAsync();
+            await _unitOfWork.productRepository.CreateAsync(product);
+            await _unitOfWork.SaveAsync();
            return NoContent();
 
         }
@@ -87,7 +89,8 @@ namespace Product.Controllers
             if (productUpdate.Price is 0) dbProduct.Price = dbProduct.Price; 
             else dbProduct.Price = productUpdate.Price;
 
-            await _context.SaveChangesAsync();
+            _unitOfWork.productRepository.Update(dbProduct);
+            await _unitOfWork.SaveAsync();
             return Ok(dbProduct);
         }
         /// <summary>

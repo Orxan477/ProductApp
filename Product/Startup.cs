@@ -10,6 +10,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Product.Data.DAL;
 using Product.Data.Entities;
+using Product.Repositiries;
+using Product.Repositiries.Implementations;
+using Product.Repositiries.Interfaces;
 using Product.Services.Implementations;
 using Product.Services.Interfaces;
 using System.Text;
@@ -64,6 +67,9 @@ namespace Product
             });
 
             services.AddScoped<IJwtService, JwtService>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //services.AddScoped<IProductRepository, ProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
